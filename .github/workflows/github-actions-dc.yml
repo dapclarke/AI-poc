@@ -41,8 +41,24 @@ jobs:
           # Adjust languages to your codebase. 'javascript,python,java' is a safe starting set.
           languages: "javascript,python,java,cpp,csharp,go"
 
-      - name: Autobuild (attempt automatic build for detected languages)
-        uses: github/codeql-action/autobuild@v2
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Compile Java sources (explicit build for CodeQL)
+        run: |
+          echo "Checking for Java sources in 'src/'..."
+          if [ -n "$(find src -name '*.java' -print -quit)" ]; then
+            echo "Java sources found; compiling into build/classes"
+            mkdir -p build/classes
+            find src -name '*.java' -print | xargs javac -d build/classes
+            echo "Compilation finished"
+          else
+            echo "No Java sources found under src/; skipping javac"
+          fi
+        shell: bash
 
       - name: Run CodeQL analysis
         uses: github/codeql-action/analyze@v2
