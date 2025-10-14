@@ -39,7 +39,8 @@ jobs:
         uses: github/codeql-action/init@v2
         with:
           # Adjust languages to your codebase. 'javascript,python,java' is a safe starting set.
-          languages: "javascript,python,java,cpp,csharp,go"
+          #languages: "javascript,python,java,cpp,csharp,go"
+          languages: "java"
 
       - name: Set up JDK
         uses: actions/setup-java@v3
