@@ -87,7 +87,16 @@ jobs:
       run: |
         # Add your build commands here. For example, if using Gradle:
         # ./gradlew build
-        javac -d out src/*.java
+        # javac -d out src/*.java
+        echo "Checking for Java sources in 'src/'..."
+        if [ -n "$(find src -name '*.java' -print -quit)" ]; then
+          echo "Java sources found; compiling into build/classes"
+          mkdir -p build/classes
+          find src -name '*.java' -print | xargs javac -d build/classes
+          echo "Compilation finished"
+        else
+          echo "No Java sources found under src/; skipping javac"
+        fi
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
