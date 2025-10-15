@@ -36,7 +36,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@v3
         with:
           # Adjust languages to your codebase. 'javascript,python,java' is a safe starting set.
           #languages: "javascript,python,java,cpp,csharp,go"
@@ -62,7 +62,7 @@ jobs:
         shell: bash
 
       - name: Run CodeQL analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v3
         with:
           # 'security' category focuses results toward security issues
           category: "security"
