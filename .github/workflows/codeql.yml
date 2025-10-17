@@ -13,9 +13,9 @@ name: "CodeQL Advanced"
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "dapclarke-actiondemo-1" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "dapclarke-actiondemo-1" ]
   schedule:
     - cron: '40 17 * * 1'
 
@@ -43,6 +43,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - language: java-kotlin
+            build-mode: manual
         # CodeQL supports the following values keywords for 'language': 'actions', 'c-cpp', 'csharp', 'go', 'java-kotlin', 'javascript-typescript', 'python', 'ruby', 'rust', 'swift'
         # Use `c-cpp` to analyze code written in C, C++ or both
         # Use 'java-kotlin' to analyze code written in Java, Kotlin or both
@@ -74,6 +76,11 @@ jobs:
         # For more details on CodeQL's query packs, refer to: https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
         # queries: security-extended,security-and-quality
 
+    # Autobuild attempts to build any compiled languages (C/C++, C# or Java etc)
+    # If the build fails, then you should remove it and run the build manually.
+    #- name: Autobuild
+    #  uses: github/codeql-action/autobuild@v3
+    
     # If the analyze step fails for one of the languages you are analyzing with
     # "We were unable to automatically build your code", modify the matrix above
     # to set the build mode to "manual" for that language. Then modify this step
@@ -83,12 +90,18 @@ jobs:
     - if: matrix.build-mode == 'manual'
       shell: bash
       run: |
-        echo 'If you are using a "manual" build mode for one or more of the' \
-          'languages you are analyzing, replace this with the commands to build' \
-          'your code, for example:'
-        echo '  make bootstrap'
-        echo '  make release'
-        exit 1
+        # Add your build commands here. For example, if using Gradle:
+        # ./gradlew build
+        # javac -d out src/*.java
+        echo "Checking for Java sources in 'src/'..."
+        if [ -n "$(find src -name '*.java' -print -quit)" ]; then
+          echo "Java sources found; compiling into build/classes"
+          mkdir -p build/classes
+          find src -name '*.java' -print | xargs javac -d build/classes
+          echo "Compilation finished"
+        else
+          echo "No Java sources found under src/; skipping javac"
+        fi
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
