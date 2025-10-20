@@ -42,6 +42,26 @@ jobs:
 
     steps:      
 
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Compile Java sources (explicit build for CodeQL)
+        run: |
+          echo "Checking for Java sources in 'src/'..."
+          if [ -n "$(find src -name '*.java' -print -quit)" ]; then
+            echo "Java sources found; compiling into build/classes"
+            mkdir -p build/classes
+            find src -name '*.java' -print | xargs javac -d build/classes
+            echo "Compilation finished"
+          else
+            echo "No Java sources found under src/; skipping javac"
+          fi
+        shell: bash          
+
       - name: Analyze with SonarQube
 
         # You can pin the exact commit or the version.
