@@ -66,7 +66,8 @@ jobs:
         uses: github/codeql-action/analyze@v3
         with:
           # 'security' category focuses results toward security issues
-          category: "security"
+          category: "/language:java-kotlin"
+          #category: "security"
 
       - name: Save a lightweight scan summary
         if: always()
