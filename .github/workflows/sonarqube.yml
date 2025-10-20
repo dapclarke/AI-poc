@@ -83,6 +83,7 @@ jobs:
             # Unique key of your project. You can find it in SonarQube > [my project] > Project Information (top-right menu)
             # mandatory
             -Dsonar.projectKey=AI-poc
+            -Dsonar.java.binaries=**/build/classes
             -Dsonar.verbose=true
             #-Dsonar.sources=../src # optional, default is project base directory            
             #-Dsonar.projectBaseDir=/home/runner/work/AI-poc/AI-poc
