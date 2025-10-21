@@ -20,12 +20,12 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
         with:
           # Adjust languages to your codebase. 'javascript,python,java' is a safe starting set.
           #languages: "javascript,python,java,cpp,csharp,go"
-          languages: "java"
-          build-mode: manual
+          languages: "java-kotlin"
+          #build-mode: manual
 
       #- name: Set up JDK
       #  uses: actions/setup-java@v3
@@ -48,11 +48,11 @@ jobs:
         shell: bash
 
       - name: Run CodeQL analysis
-        uses: github/codeql-action/analyze@v3
+        uses: github/codeql-action/analyze@v4
         with:
           # 'security' category focuses results toward security issues
-          category: "/language:java-kotlin"
-          #category: "security"
+          #category: "/language:java-kotlin"
+          category: "security"
 
       - name: Save a lightweight scan summary
         if: always()
