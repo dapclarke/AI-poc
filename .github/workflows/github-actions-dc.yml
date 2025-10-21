@@ -5,7 +5,7 @@ on:
   push: {}
   pull_request: {}
 
-# Minimal required permissions for CodeQL analysis
+# Minimal required permissions for CodeQL analysis fds
 permissions:
   actions: read
   contents: read
