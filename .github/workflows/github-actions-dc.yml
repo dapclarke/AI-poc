@@ -5,7 +5,7 @@ on:
   push: {}
   pull_request: {}
 
-# Minimal required permissions for CodeQL analysis fds
+# Minimal required permissions for CodeQL analysis
 permissions:
   actions: read
   contents: read
@@ -27,12 +27,12 @@ jobs:
           languages: "java"
           build-mode: manual
 
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-          #java-version: '11'
+      #- name: Set up JDK
+      #  uses: actions/setup-java@v3
+      #  with:
+      #    distribution: 'temurin'
+      #    java-version: '17'
+      #    #java-version: '11'
 
       - name: Compile Java sources (explicit build for CodeQL)
         run: |
