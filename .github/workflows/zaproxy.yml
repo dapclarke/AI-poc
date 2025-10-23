@@ -11,6 +11,11 @@ jobs:
   zap_scan:
     runs-on: ubuntu-latest
     name: Scan the webapplication
+
+    permissions:
+      actions: read
+      contents: read
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
