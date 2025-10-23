@@ -13,8 +13,6 @@ jobs:
     name: Scan the webapplication
 
     permissions:
-      actions: write
-      contents: write
       issues: write
 
     steps:
