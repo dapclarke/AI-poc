@@ -13,8 +13,8 @@ jobs:
     name: Scan the webapplication
 
     permissions:
-      actions: read
-      contents: read
+      actions: write
+      #contents: read
 
     steps:
       - name: Checkout
