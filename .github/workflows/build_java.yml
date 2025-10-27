@@ -27,5 +27,5 @@ jobs:
 
       - name: Run the Maven verify phase
         run: |
-            cd projects/maven/rest-service-main
+            cd projects/maven/rest-service-dctest
             mvn test
