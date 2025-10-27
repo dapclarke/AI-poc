@@ -26,5 +26,6 @@ jobs:
           java-version: '17'
 
       - name: Run the Maven verify phase
-        run: mvn test
-        
+        run: |
+            cd projects/maven/rest-service-main
+            mvn test
