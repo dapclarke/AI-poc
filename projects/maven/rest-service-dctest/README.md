@@ -1,4 +1,4 @@
-# rest-service-main
+# rest-service-dctest
 
 
 Build and run:
@@ -7,4 +7,6 @@ Build and run:
 mvn clean package
 ./mvnw clean package
 ```
+
+
 
