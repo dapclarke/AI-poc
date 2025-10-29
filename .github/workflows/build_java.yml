@@ -41,11 +41,11 @@ jobs:
         uses: azure/arm-deploy@v1
         with:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-          resourceGroupName: AppServiceRG
-          template: ./bicep/webapp.bicep
-          #parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
-          parameters: webapp.parameters.json
+          resourceGroupName: 'AppServiceRG'
+          template: projects/maven/rest-service-dctest/bicep/webapp.bicep
+          parameters: projects/maven/rest-service-dctest/bicep/webapp.parameters.json
           failOnStdErr: false
+          #parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
 
       #- name: Deploy to Azure Web App
       #  uses: azure/webapps-deploy@v2
