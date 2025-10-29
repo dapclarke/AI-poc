@@ -17,6 +17,7 @@ jobs:
     env:
       APP_RESOURCE_GROUP: AppServiceRG
       APP_NAME: dunc-rest-service-dctesttmp
+      PROJECT_PATH: projects/maven/rest-service-dctest
         
     steps:      
 
@@ -49,8 +50,8 @@ jobs:
           scope: 'resourcegroup'
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
           resourceGroupName: ${{ env.APP_RESOURCE_GROUP }}
-          template: projects/maven/rest-service-dctest/bicep/webapp.bicep
-          parameters: projects/maven/rest-service-dctest/bicep/webapp.parameters.json
+          template: ${{ env.PROJECT_PATH }}/bicep/webapp.bicep
+          parameters: ${{ env.PROJECT_PATH }}/bicep/webapp.parameters.json
           failOnStdErr: false
           #parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
 
@@ -66,15 +67,15 @@ jobs:
         run: |
           echo "Output variable : ${{ steps.publishingProfile.outputs.profile }}"
 
-      #- name: Deploy to Azure Web App
-      #  uses: azure/webapps-deploy@v2
-      #  with:
-      #    app-name: $APP_NAME #${{ secrets.AZURE_WEBAPP_NAME }}
-      #    #publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-      #    publish-profile: ${{ step.publishingProfile.outputs }}
-      #    package: target/*.jar  # or .war depending on your packaging
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: $APP_NAME #${{ secrets.AZURE_WEBAPP_NAME }}
+          #publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+          publish-profile: ${{ steps.publishingProfile.outputs.profile }}
+          package: ${{ env.PROJECT_PATH }}/target/*.jar  # or .war depending on your packaging
 
       - name: Run the Maven verify phase
         run: |
-            cd projects/maven/rest-service-dctest
+            cd ${{ env.PROJECT_PATH }}
             mvn test
