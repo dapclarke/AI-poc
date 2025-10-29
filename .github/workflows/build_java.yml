@@ -48,7 +48,7 @@ jobs:
         with:
           scope: 'resourcegroup'
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-          resourceGroupName: "$APP_RESOURCE_GROUP"
+          resourceGroupName: ${{ env.APP_RESOURCE_GROUP }}
           template: projects/maven/rest-service-dctest/bicep/webapp.bicep
           parameters: projects/maven/rest-service-dctest/bicep/webapp.parameters.json
           failOnStdErr: false
