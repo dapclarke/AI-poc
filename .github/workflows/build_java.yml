@@ -40,6 +40,7 @@ jobs:
       - name: Deploy Bicep file
         uses: azure/arm-deploy@v1
         with:
+          scope: 'resourceGroup'
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
           resourceGroupName: 'AppServiceRG'
           template: projects/maven/rest-service-dctest/bicep/webapp.bicep
