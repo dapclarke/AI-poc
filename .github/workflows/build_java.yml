@@ -64,15 +64,15 @@ jobs:
 
       - name: Use variables
         run: |
-          echo "Output variable : ${{ step.publishingProfile.outputs }}"
+          echo "Output variable : ${{ steps.publishingProfile.outputs }}"
 
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: $APP_NAME #${{ secrets.AZURE_WEBAPP_NAME }}
-          #publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-          publish-profile: ${{ step.publishingProfile.outputs }}
-          package: target/*.jar  # or .war depending on your packaging
+      #- name: Deploy to Azure Web App
+      #  uses: azure/webapps-deploy@v2
+      #  with:
+      #    app-name: $APP_NAME #${{ secrets.AZURE_WEBAPP_NAME }}
+      #    #publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+      #    publish-profile: ${{ step.publishingProfile.outputs }}
+      #    package: target/*.jar  # or .war depending on your packaging
 
       - name: Run the Maven verify phase
         run: |
