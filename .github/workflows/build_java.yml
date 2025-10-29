@@ -55,17 +55,23 @@ jobs:
           #parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
 
       - name: Azure CLI script
+        id: publishingProfile
         uses: azure/cli@v2
         with:
           azcliversion: latest
           inlineScript: |
             az webapp deployment list-publishing-profiles --name ${{ env.APP_NAME }} --resource-group ${{ env.APP_RESOURCE_GROUP }} --xml
 
+      - name: Use variables
+        run: |
+          echo "Output variable : ${{ step.publishingProfile.outputs }}"
+
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
           app-name: $APP_NAME #${{ secrets.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+          #publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+          publish-profile: ${{ step.publishingProfile.outputs }}
           package: target/*.jar  # or .war depending on your packaging
 
       - name: Run the Maven verify phase
