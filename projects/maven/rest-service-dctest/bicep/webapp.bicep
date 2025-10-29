@@ -2,7 +2,7 @@
 param location string = 'UK South'
 param appName string = 'dunc-rest-service-dctesttmp'
 param appServicePlanName string = 'DuncASP'
-param javaVersion string = 'Java 17'
+//param javaVersion string = 'Java 17'
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' existing = {
   name: appServicePlanName
