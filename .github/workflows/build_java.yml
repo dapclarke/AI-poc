@@ -82,7 +82,7 @@ jobs:
 
       - name: Wait for deployment to stabilize
         run: |
-          sleep 30  # Give the app some time to start up properly
+          sleep 10  # Give the app some time to start up properly
 
       - name: Run REST Assured Tests
         env:
