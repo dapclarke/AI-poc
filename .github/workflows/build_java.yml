@@ -14,6 +14,9 @@ jobs:
   CI_CD_Java_Maven_Azure_WebApp:
     runs-on: ubuntu-latest
 
+    permissions:
+      issues: write
+
     env:
       APP_RESOURCE_GROUP: AppServiceRG
       APP_NAME: dunc-rest-service-dctesttmp
