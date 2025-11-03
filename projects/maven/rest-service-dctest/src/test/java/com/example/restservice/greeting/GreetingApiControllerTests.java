@@ -15,10 +15,11 @@ public class GreetingApiControllerTests {
 
     @BeforeEach
     public void setUp() {
-        // Configure REST Assured to use the dynamic port
-        baseURI = "http://dunc-rest-service-dctesttmp.azurewebsites.net";
-        // baseURI = "http://localhost";
-        port = this.port;
+        // Get the base URL from system properties or use default
+        String appBaseUrl = System.getProperty("APP_BASE_URL", "http://localhost:8080");
+        baseURI = appBaseUrl;
+        // Don't set port when using full URL
+        port = 80;
     }
 
     @Test
