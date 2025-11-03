@@ -36,7 +36,7 @@ jobs:
       - name: Build with Maven
         run: |
           cd projects/maven/rest-service-dctest
-          mvn clean package
+          mvn clean package -Dtest=!GreetingApiControllerTests
         #run: mvn -B package --file pom.xml
         #working-directory: my-app-path          
 
@@ -80,10 +80,17 @@ jobs:
           publish-profile: ${{ steps.publishingProfile.outputs.profile }}
           package: ${{ env.PROJECT_PATH }}/target/*.jar  # or .war depending on your packaging
 
-      - name: Run the Maven verify phase
+      - name: Wait for deployment to stabilize
         run: |
-            cd ${{ env.PROJECT_PATH }}
-            mvn test
+          sleep 30  # Give the app some time to start up properly
+
+      - name: Run REST Assured Tests
+        env:
+          APP_URL: https://${{ steps.publishingProfile.outputs.hostname }}
+        run: |
+          cd ${{ env.PROJECT_PATH }}
+          # Run only the API tests
+          mvn test -Dtest=GreetingApiControllerTests -DAPP_BASE_URL=$APP_URL
 
       - name: ZAP Scan
         uses: zaproxy/action-api-scan@v0.9.0
