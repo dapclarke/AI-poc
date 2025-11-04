@@ -2,9 +2,9 @@ name: Java Build
 
 on:
   push:
-    branches: [ "main", "dapclarke-actiondemo-1" ]
+    #branches: [ "main", "dapclarke-actiondemo-1" ]
   pull_request:
-    branches: [ "main", "dapclarke-actiondemo-1" ]
+    branches: [ "main" ]
   workflow_dispatch:
 
 permissions:
@@ -102,3 +102,9 @@ jobs:
           target: "https://${{ steps.publishingProfile.outputs.hostname }}/greeting"
           rules_file_name: '.zap/rules.tsv'
           cmd_options: '-a'
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: GreetingApp-JAR
+          path: ${{ env.PROJECT_PATH }}/target/*.jar
