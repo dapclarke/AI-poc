@@ -19,7 +19,7 @@ jobs:
 
     env:
       APP_RESOURCE_GROUP: AppServiceRG
-      APP_NAME: dunc-rest-service-dctesttmp
+      APP_NAME: javacicdtest-wa
       PROJECT_PATH: projects/maven/rest-service-dctest
         
     steps:      
