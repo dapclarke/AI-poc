@@ -1,6 +1,11 @@
 
-param location string = resourceGroup().location // Location for all resources
-param appName string = 'javacicdtest-wa' // Name of the Web App
+@description('The name of the web app to create')
+param appName string
+
+@description('Location for all resources')
+param location string = resourceGroup().location
+
+@description('Name of the App Service Plan')
 param appServicePlanName string = 'DuncCICD-asp'
 param sku string = 'P0v3' // Tier of the App Service plan - Note: Deployment slots require Standard or higher
 //param javaVersion string = 'Java 17'

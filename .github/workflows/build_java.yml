@@ -54,9 +54,10 @@ jobs:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
           resourceGroupName: ${{ env.APP_RESOURCE_GROUP }}
           template: ${{ env.PROJECT_PATH }}/bicep/webapp.bicep
-          parameters: ${{ env.PROJECT_PATH }}/bicep/webapp.parameters.json
+          parameters: >
+            ${{ env.PROJECT_PATH }}/bicep/webapp.parameters.json
+            appName=${{ env.APP_NAME }}
           failOnStdErr: false
-          #parameters: 'storagePrefix=mystore storageSKU=Standard_LRS'
 
       - name: Get webapp config - publish profile + hostname
         id: publishingProfile
