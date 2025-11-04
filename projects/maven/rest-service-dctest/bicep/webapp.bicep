@@ -1,6 +1,6 @@
 
 param location string = resourceGroup().location // Location for all resources
-param appName string = 'dunc-rest-service-dctesttmp'
+param appName string = 'javacicdtest-wa' // Name of the Web App
 param appServicePlanName string = 'DuncCICD-asp'
 param sku string = 'B1' // Tier of the App Service plan
 //param javaVersion string = 'Java 17'
