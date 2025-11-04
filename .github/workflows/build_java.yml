@@ -70,9 +70,8 @@ jobs:
             echo "hostname=$hostname" >> $GITHUB_OUTPUT
             developmentprofile=$(az webapp deployment list-publishing-profiles --name ${{ env.APP_NAME }} --slot development --resource-group ${{ env.APP_RESOURCE_GROUP }} --xml)
             echo "developmentprofile=$developmentprofile" >> $GITHUB_OUTPUT            
-            developmentslothostname=$(az webapp show --name ${{ env.APP_NAME }} --slot development --resource-group ${{ env.APP_RESOURCE_GROUP }} --query hostName -o tsv)
+            developmentslothostname=$(az webapp show --name ${{ env.APP_NAME }} --slot development --resource-group ${{ env.APP_RESOURCE_GROUP }} --query hostNames -o tsv)
             echo "developmenthostname=$developmentslothostname" >> $GITHUB_OUTPUT
-            echo "developmenthostname: $developmentslothostname"
 
       #- name: Use variables
       #  run: |
