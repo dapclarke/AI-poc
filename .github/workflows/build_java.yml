@@ -68,6 +68,8 @@ jobs:
             echo "profile=$profile" >> $GITHUB_OUTPUT
             hostname=$(az webapp show --name ${{ env.APP_NAME }} --resource-group ${{ env.APP_RESOURCE_GROUP }} --query defaultHostName -o tsv)
             echo "hostname=$hostname" >> $GITHUB_OUTPUT
+            developmentprofile=$(az webapp deployment slot auto-swap --name ${{ env.APP_NAME }} --slot development --resource-group ${{ env.APP_RESOURCE_GROUP }} --xml)
+            echo "developmentprofile=$developmentprofile" >> $GITHUB_OUTPUT            
             developmentslothostname=$(az webapp show --name ${{ env.APP_NAME }} --slot development --resource-group ${{ env.APP_RESOURCE_GROUP }} --query hostName -o tsv)
             echo "developmenthostname=$developmentslothostname" >> $GITHUB_OUTPUT
 
