@@ -2,8 +2,16 @@
 param location string = resourceGroup().location // Location for all resources
 param appName string = 'javacicdtest-wa' // Name of the Web App
 param appServicePlanName string = 'DuncCICD-asp'
-param sku string = 'B1' // Tier of the App Service plan
+param sku string = 'P0v3' // Tier of the App Service plan - Note: Deployment slots require Standard or higher
 //param javaVersion string = 'Java 17'
+
+// Slot configuration
+param enableSlots bool = true  // Enable/disable deployment slots
+param slotNames array = [
+  'main'
+  'staging'
+  'development'
+]
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
   name: appServicePlanName
@@ -25,6 +33,30 @@ resource webApp 'Microsoft.Web/sites@2022-03-01' = {
     serverFarmId: appServicePlan.id
     siteConfig: {
       linuxFxVersion: 'JAVA|17-java17'
+      // Enable slot settings
+      numberOfWorkers: 1
     }
   }
 }
+
+// Production slot is the default slot (already created with the web app above)
+
+// Deploy slots using array
+resource slots 'Microsoft.Web/sites/slots@2022-03-01' = [for slotName in slotNames: if(enableSlots) {
+  parent: webApp
+  name: slotName
+  location: location
+  kind: 'app,linux'
+  properties: {
+    serverFarmId: appServicePlan.id
+    siteConfig: {
+      linuxFxVersion: 'JAVA|17-java17'
+      appSettings: [
+        {
+          name: 'SLOT_NAME'
+          value: slotName
+        }
+      ]
+    }
+  }
+}]
