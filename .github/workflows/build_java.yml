@@ -11,7 +11,7 @@ permissions:
   pull-requests: read # allows SonarQube to decorate PRs with analysis results
 
 jobs:
-  CI_CD_Java_Maven_Azure_WebApp:
+  Build_and_Test_in_Development_Slot:
     runs-on: ubuntu-latest
 
     permissions:
@@ -114,3 +114,17 @@ jobs:
         with:
           name: GreetingApp-JAR
           path: ${{ env.PROJECT_PATH }}/target/*.jar
+      
+      - name: Get Date
+        id: get-date
+        run: |
+          echo "date=$(/bin/date -u "+%Y%m%d")" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - uses: actions/cache@v4
+        with:
+          path: ${{ env.PROJECT_PATH }}/target/*.jar
+          key: WebApp-${{ steps.get-date.outputs.date }}-${{ hashFiles("${{ env.PROJECT_PATH }}/target/*.jar") }}
+      
+  #Deploy_and_Test_in_Staging_Slot:
+    
