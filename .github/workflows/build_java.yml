@@ -60,7 +60,7 @@ jobs:
           failOnStdErr: false
 
       - name: Get webapp config - publish profile + hostname
-        id: publishingProfile
+        id: devPublishingProfile
         uses: azure/cli@v1
         with:
           inlineScript: |
@@ -75,14 +75,14 @@ jobs:
 
       #- name: Use variables
       #  run: |
-      #    echo "Output variable : ${{ steps.publishingProfile.outputs.profile }}"
+      #    echo "Output variable : ${{ steps.devPublishingProfile.outputs.profile }}"
 
       - name: Deploy to Azure Web App (development slot)
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.APP_NAME }}
           slot-name: 'development'  # desired slot name
-          publish-profile: ${{ steps.publishingProfile.outputs.developmentprofile }}
+          publish-profile: ${{ steps.devPublishingProfile.outputs.developmentprofile }}
           package: ${{ env.PROJECT_PATH }}/target/*.jar
 
       - name: Wait for deployment to stabilize
@@ -91,8 +91,8 @@ jobs:
 
       - name: Run REST Assured Tests
         env:
-          APP_URL: https://${{ steps.publishingProfile.outputs.hostname }}
-          DEV_SLOT_APP_URL: https://${{ steps.publishingProfile.outputs.developmenthostname }}
+          APP_URL: https://${{ steps.devPublishingProfile.outputs.hostname }}
+          DEV_SLOT_APP_URL: https://${{ steps.devPublishingProfile.outputs.developmenthostname }}
         run: |
           cd ${{ env.PROJECT_PATH }}
           # Run only the API tests
@@ -105,7 +105,7 @@ jobs:
           docker_name: 'ghcr.io/zaproxy/zaproxy:stable'
           format: openapi
           #target: 'https://testrestapi-gcefhdbrgdddced4.uksouth-01.azurewebsites.net/greeting'
-          target: "https://${{ steps.publishingProfile.outputs.developmenthostname }}/greeting"
+          target: "https://${{ steps.devPublishingProfile.outputs.developmenthostname }}/greeting"
           rules_file_name: '.zap/rules.tsv'
           cmd_options: '-a'
 
@@ -142,7 +142,43 @@ jobs:
     steps:
 
     # Downloads to $GITHUB_WORKSPACE by default
-    - name: Upload build artifact
+    - name: Download build artifact
       uses: actions/download-artifact@v4
       with:
         name: GreetingApp-JAR
+
+    # REF: https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-github-actions?tabs=CLI%2Cuserlevel
+    - name: Log into Azure
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Get webapp config - publish profile + hostname
+      id: mainPublishingProfile
+      uses: azure/cli@v1
+      with:
+        inlineScript: |
+          mainprofile=$(az webapp deployment list-publishing-profiles --name ${{ env.APP_NAME }} --slot main --resource-group ${{ env.APP_RESOURCE_GROUP }} --xml)
+          echo "mainprofile=$mainprofile" >> $GITHUB_OUTPUT            
+          mainslothostname=$(az webapp show --name ${{ env.APP_NAME }} --slot main --resource-group ${{ env.APP_RESOURCE_GROUP }} --query hostNames -o tsv)
+          echo "mainhostname=$mainslothostname" >> $GITHUB_OUTPUT
+
+    - name: Deploy to Azure Web App (development slot)
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.APP_NAME }}
+        slot-name: 'main'  # desired slot name
+        publish-profile: ${{ steps.mainPublishingProfile.outputs.mainprofile }}
+        package: ${{ env.PROJECT_PATH }}/target/*.jar
+
+    - name: Wait for deployment to stabilize
+      run: |
+        sleep 30  # Give the app some time to start up properly
+
+    - name: Run REST Assured Tests
+      env:
+        MAIN_SLOT_APP_URL: https://${{ steps.mainPublishingProfile.outputs.mainhostname }}
+      run: |
+        cd ${{ env.PROJECT_PATH }}
+        # Run only the API tests
+        mvn test -Dtest=GreetingApiControllerTests -DAPP_BASE_URL=$MAIN_SLOT_APP_URL          

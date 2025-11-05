@@ -14,7 +14,6 @@ param sku string = 'P0v3' // Tier of the App Service plan - Note: Deployment slo
 param enableSlots bool = true  // Enable/disable deployment slots
 param slotNames array = [
   'main'
-  'staging'
   'development'
 ]
 
