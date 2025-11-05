@@ -124,7 +124,7 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: ${{ env.PROJECT_PATH }}/target/*.jar
-          key: WebApp-${{ steps.get-date.outputs.date }}-${{ hashFiles("${{ env.PROJECT_PATH }}/target/*.jar") }}
+          key: WebApp-${{ steps.get-date.outputs.date }}-${{ hashFiles('projects/maven/rest-service-dctest/target/*.jar') }}
       
   #Deploy_and_Test_in_Staging_Slot:
     
