@@ -10,17 +10,17 @@ on:
 permissions:
   pull-requests: read # allows SonarQube to decorate PRs with analysis results
 
+env:
+  APP_RESOURCE_GROUP: AppServiceRG
+  APP_NAME: javacicdtest-wa
+  PROJECT_PATH: projects/maven/rest-service-dctest
+
 jobs:
   Build_and_Test_in_Development_Slot:
     runs-on: ubuntu-latest
 
     permissions:
       issues: write
-
-    env:
-      APP_RESOURCE_GROUP: AppServiceRG
-      APP_NAME: javacicdtest-wa
-      PROJECT_PATH: projects/maven/rest-service-dctest
         
     steps:      
 
@@ -115,25 +115,33 @@ jobs:
           name: GreetingApp-JAR
           path: ${{ env.PROJECT_PATH }}/target/*.jar
       
-      - name: Get Date
-        id: get-date
-        run: |
-          echo "date=$(/bin/date -u "+%Y%m%d")" >> $GITHUB_OUTPUT
-        shell: bash
+      # - name: Get Date
+      #   id: get-date
+      #   run: |
+      #     echo "date=$(/bin/date -u "+%Y%m%d")" >> $GITHUB_OUTPUT
+      #   shell: bash
 
-      - name: Cache jar build file
-        id: cache-jar
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.PROJECT_PATH }}/target/*.jar
-          key: WebApp-${{ steps.get-date.outputs.date }}-${{ hashFiles('projects/maven/rest-service-dctest/target/*.jar') }}
-          restore-keys: |
-            WebApp-${{ steps.get-date.outputs.date }}-
+      # - name: Cache jar build file
+      #   id: cache-jar
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: ${{ env.PROJECT_PATH }}/target/*.jar
+      #     key: WebApp-${{ steps.get-date.outputs.date }}-${{ hashFiles('projects/maven/rest-service-dctest/target/*.jar') }}
+      #     restore-keys: |
+      #       WebApp-${{ steps.get-date.outputs.date }}-
 
       #- if: ${{ steps.cache-jar.outputs.cache-hit != 'true' }}
       #  name: List the state of node modules
       #  continue-on-error: true
       #  run: npm list
 
-  #Deploy_and_Test_in_Staging_Slot:
-    
+  Deploy_and_Test_in_Main_Slot:
+    runs-on: ubuntu-latest
+        
+    steps:
+
+    # Downloads to $GITHUB_WORKSPACE by default
+    - name: Upload build artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: GreetingApp-JAR
