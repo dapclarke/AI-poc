@@ -136,6 +136,7 @@ jobs:
       #  run: npm list
 
   Deploy_and_Test_in_Main_Slot:
+    needs: Build_and_Test_in_Development_Slot
     runs-on: ubuntu-latest
         
     steps:
