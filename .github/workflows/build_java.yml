@@ -163,13 +163,13 @@ jobs:
           mainslothostname=$(az webapp show --name ${{ env.APP_NAME }} --slot main --resource-group ${{ env.APP_RESOURCE_GROUP }} --query hostNames -o tsv)
           echo "mainhostname=$mainslothostname" >> $GITHUB_OUTPUT
 
-    - name: Deploy to Azure Web App (development slot)
+    - name: Deploy to Azure Web App (main slot)
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.APP_NAME }}
         slot-name: 'main'  # desired slot name
         publish-profile: ${{ steps.mainPublishingProfile.outputs.mainprofile }}
-        package: ${{ env.PROJECT_PATH }}/target/*.jar
+        package: $GITHUB_WORKSPACE/*.jar
 
     - name: Wait for deployment to stabilize
       run: |
