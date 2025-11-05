@@ -141,6 +141,9 @@ jobs:
         
     steps:
 
+    - name: Check out repository
+      uses: actions/checkout@v5
+
     # Downloads to $GITHUB_WORKSPACE by default
     - name: Download build artifact
       uses: actions/download-artifact@v4
@@ -181,4 +184,11 @@ jobs:
       run: |
         cd ${{ env.PROJECT_PATH }}
         # Run only the API tests
-        mvn test -Dtest=GreetingApiControllerTests -DAPP_BASE_URL=$MAIN_SLOT_APP_URL          
+        mvn test -Dtest=GreetingApiControllerTests -DAPP_BASE_URL=$MAIN_SLOT_APP_URL
+
+    - name: Swap slots - promote main to production
+      id: swapMainToProd
+      uses: azure/cli@v1
+      with:
+        inlineScript: |
+          az webapp deployment slot swap --name <APP_NAME> --resource-group <RESOURCE_GROUP> --slot staging --target-slot production
