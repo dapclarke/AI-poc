@@ -1,0 +1,64 @@
+name: GitHub SAST poc
+run-name: ${{ github.actor }} is testing SAST in GitHub Actions 🚀
+
+on:
+  push: {}
+  pull_request: {}
+
+# Minimal required permissions for CodeQL analysis
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+
+jobs:
+  codeql-analysis:
+    name: CodeQL SAST analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          # Adjust languages to your codebase. 'javascript,python,java' is a safe starting set.
+          #languages: "javascript,python,java,cpp,csharp,go"
+          languages: "java-kotlin"
+          #build-mode: manual
+
+      #- name: Set up JDK
+      #  uses: actions/setup-java@v3
+      #  with:
+      #    distribution: 'temurin'
+      #    java-version: '17'
+      #    #java-version: '11'
+
+      - name: Compile Java sources (explicit build for CodeQL)
+        run: |
+          echo "Checking for Java sources in 'src/'..."
+          if [ -n "$(find src -name '*.java' -print -quit)" ]; then
+            echo "Java sources found; compiling into build/classes"
+            mkdir -p build/classes
+            find src -name '*.java' -print | xargs javac -d build/classes
+            echo "Compilation finished"
+          else
+            echo "No Java sources found under src/; skipping javac"
+          fi
+        shell: bash
+
+      - name: Run CodeQL analysis
+        uses: github/codeql-action/analyze@v4
+        with:
+          # 'security' category focuses results toward security issues
+          #category: "/language:java-kotlin"
+          category: "security"
+
+      - name: Save a lightweight scan summary
+        if: always()
+        run: |
+          echo "CodeQL job completed with status: ${{ job.status }}"
+
+# Notes:
+# - CodeQL will autodetect languages, but specifying `languages` can speed up the analysis.
+# - For larger repositories, consider adding a `.github/codeql/codeql-config.yml` to tune queries and reduce noise.
