@@ -1,0 +1,173 @@
+---
+references:
+  - "File: /projects/maven/rest-service-dctest/bicep/webapp.parameters.json"
+  - "File: /src/VulnerableExamples.java"
+  - "File: /src/TestJava.java"
+  - "File: /src/HelloWorld.java"
+  - "File:
+    /projects/maven/rest-service-main/src/main/java/com/example/restservice/gre\
+    eting/GreetingController.java"
+  - "File:
+    /projects/maven/rest-service-main/src/main/java/com/example/restservice/gre\
+    eting/Greeting.java"
+  - "File:
+    /projects/maven/rest-service-dctest/src/test/java/hellocucumber/StepDefinit\
+    ions.java"
+  - "File:
+    /projects/maven/rest-service-dctest/src/test/java/hellocucumber/RunCucumber\
+    Test.java"
+  - "File:
+    /projects/maven/rest-service-dctest/src/main/java/com/exampleapi/restservic\
+    e/greeting/GreetingController.java"
+  - "File:
+    /projects/maven/rest-service-dctest/src/main/java/com/exampleapi/restservic\
+    e/greeting/Greeting.java"
+  - "File:
+    /projects/maven/rest-service-dctest/src/test/java/com/exampleapi/restservic\
+    e/greeting/GreetingControllerTests.java"
+  - "File:
+    /projects/maven/rest-service-dctest/src/test/java/com/exampleapi/restservic\
+    e/greeting/GreetingApiControllerTests.java"
+  - "File:
+    /projects/maven/rest-service-dctest/src/main/java/com/exampleapi/restservic\
+    e/Application.java"
+  - "File:
+    /projects/cucumber/tutorial/hellocucumber/src/test/java/hellocucumber/StepD\
+    efinitions.java"
+  - "File:
+    /projects/cucumber/tutorial/hellocucumber/src/test/java/hellocucumber/RunCu\
+    cumberTest.java"
+  - "File:
+    /projects/cucumber/tutorial/hellocucumber/src/test/java/hellocucumber/IsItF\
+    ridayTest.java"
+  - "File:
+    /projects/cucumber/tutorial/hellocucumber/src/test/java/hellocucumber/IsItF\
+    riday.java"
+  - "File:
+    /projects/maven/rest-service-main/src/main/java/com/example/restservice/App\
+    lication.java"
+  - "File:
+    /_Archive/main/java/com/consulner/app/errors/GlobalExceptionHandler.java"
+  - "File: /_Archive/main/java/com/consulner/app/api/ErrorResponse.java"
+  - "File:
+    /_Archive/main/java/com/consulner/app/errors/ApplicationExceptions.java"
+  - "File: /_Archive/main/java/com/consulner/app/api/Constants.java"
+  - "File:
+    /_Archive/main/java/com/consulner/app/errors/ApplicationException.java"
+  - "File: /_Archive/main/java/com/consulner/app/api/ApiUtils.java"
+  - "File:
+    /_Archive/main/java/com/consulner/data/user/InMemoryUserRepository.java"
+  - "File: /_Archive/main/java/com/consulner/domain/user/NewUser.java"
+  - "File: /_Archive/main/java/com/consulner/domain/user/UserService.java"
+  - "File: /_Archive/main/java/com/consulner/domain/user/User.java"
+  - "File: /_Archive/main/java/com/consulner/app/api/ResponseEntity.java"
+  - "File:
+    /_Archive/main/java/com/consulner/app/api/user/RegistrationHandler.java"
+  - "File:
+    /projects/maven/rest-service-main/src/test/java/com/example/restservice/gre\
+    eting/GreetingControllerTests.java"
+  - "File: /projects/maven/rest-service-dctest/bicep/webapp.bicep"
+  - "File: /.github/copilot-instructions.md"
+generationTime: 2025-11-06T16:42:41.547Z
+---
+erDiagram
+    WEBAPP_PARAMETERS {
+        string appName PK "Default value: default-app-name"
+        string contentVersion "1.0.0.0"
+    }
+    VULNERABLE_EXAMPLES {
+        string username FK "SQL Injection risk"
+        byte[] serialized "Insecure Deserialization risk"
+        string filename "Path Traversal risk"
+        string userArg "Command Injection risk"
+    }
+    TEST_JAVA {
+        boolean b
+        string key "32-char API key"
+        string s
+    }
+    HELLOWORLD {
+        string args "Command line arguments array"
+        string output "Hello, world!"
+    }
+    GREETING {
+        long id PK
+        string name FK "Optional name parameter"
+        int responseStatus "200"
+        string content
+        string content "Response content"
+        string customName "Optional name parameter"
+        string defaultMessage "Hello, World!"
+    }
+    GREETING_CONTROLLER {
+        AtomicLong counter
+        MockMvc mockMvc
+        string defaultMessage "Hello, World!"
+        string template
+        string template "Hello, %s!"
+    }
+    API_TEST_CONFIG {
+        int port
+        string appBaseUrl
+        string baseURI
+    }
+    SPRING_APPLICATION {
+        string applicationClass "Application.class"
+        string bootClass "com.example.restservice.Application"
+        string[] args "Command line arguments"
+    }
+    STEP_DEFINITIONS {
+        string actualAnswer
+        string today
+    }
+    IS_IT_FRIDAY {
+        string today FK
+        string today FK "Input parameter"
+        string isItFriday "Static method signature"
+        string result "TGIF or Nope"
+    }
+    CUCUMBER_TEST_CONFIG {
+        string engine "cucumber"
+        string glue "hellocucumber"
+        string package "hellocucumber"
+        string plugin "pretty"
+    }
+    IS_IT_FRIDAY_TEST {
+        string testFridayResponse
+        string testNonFridayResponse
+    }
+    ERROR_RESPONSE {
+        int code
+        string details
+        string message
+    }
+    GLOBAL_EXCEPTION_HANDLER {
+        ObjectMapper objectMapper
+    }
+    INVALID_REQUEST_EXCEPTION {
+        int code
+        string message
+    }
+    RESOURCE_NOT_FOUND_EXCEPTION {
+        int code
+        string message
+    }
+    METHOD_NOT_ALLOWED_EXCEPTION {
+        int code
+        string message
+    }
+    CUCUMBER_TEST_CONFIG ||--o{ STEP_DEFINITIONS : "configures"
+    DATABASE_CONNECTION ||--o{ VULNERABLE_EXAMPLES : "executes queries"
+    ERROR_RESPONSE ||--o{ INVALID_REQUEST_EXCEPTION : "represents"
+    ERROR_RESPONSE ||--o{ METHOD_NOT_ALLOWED_EXCEPTION : "represents"
+    ERROR_RESPONSE ||--o{ RESOURCE_NOT_FOUND_EXCEPTION : "represents"
+    FILE_SYSTEM ||--o{ VULNERABLE_EXAMPLES : "accesses files"
+    GLOBAL_EXCEPTION_HANDLER ||--o{ ERROR_RESPONSE : "creates"
+    GREETING_CONTROLLER ||--o{ GREETING : "creates"
+    GREETING_CONTROLLER ||--o{ GREETING : "creates/greeting"
+    GREETING_CONTROLLER ||--o{ GREETING : "tests"
+    IS_IT_FRIDAY_TEST ||--o{ IS_IT_FRIDAY : "tests"
+    OBJECT_STREAM ||--o{ VULNERABLE_EXAMPLES : "deserializes data"
+    RUNTIME_ENVIRONMENT ||--o{ VULNERABLE_EXAMPLES : "executes commands"
+    SPRING_APPLICATION ||--o{ GREETING_CONTROLLER : "configures"
+    STEP_DEFINITIONS ||--o{ IS_IT_FRIDAY : "today"
