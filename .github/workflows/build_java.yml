@@ -138,6 +138,7 @@ jobs:
   Deploy_and_Test_in_Main_Slot:
     needs: Build_and_Test_in_Development_Slot
     runs-on: ubuntu-latest
+    environment: main
         
     steps:
 
@@ -185,6 +186,18 @@ jobs:
         cd ${{ env.PROJECT_PATH }}
         # Run only the API tests
         mvn test -Dtest=GreetingApiControllerTests -DAPP_BASE_URL=$MAIN_SLOT_APP_URL
+
+  Swap_Main_to_Production_Slot:
+    needs: Deploy_and_Test_in_Main_Slot
+    runs-on: ubuntu-latest
+    environment: production
+        
+    steps:
+
+    - name: Log into Azure
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Swap slots - promote main to production
       id: swapMainToProd
