@@ -8,10 +8,10 @@
 		<version>3.2.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>rest-service</artifactId>
+	<groupId>com.exampleapi</groupId>
+	<artifactId>dc-rest-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>rest-service</name>
+	<name>dc-rest-service</name>
 	<description>RESTful web application</description>
 	<properties>
 		<java.version>17</java.version>

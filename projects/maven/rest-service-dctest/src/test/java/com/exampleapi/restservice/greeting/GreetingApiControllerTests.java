@@ -1,10 +1,13 @@
-package com.example.restservice.greeting;
+package com.exampleapi.restservice.greeting;
+// package com.example.api.greetingapi; // Gen by AI
 
+import static io.restassured.RestAssured.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+//import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import static io.restassured.RestAssured.*;
+
+//import static io.restassured.RestAssured.given; // Gen by AI
 import static org.hamcrest.Matchers.*;
 
 // @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -31,4 +34,32 @@ public class GreetingApiControllerTests {
                 .assertThat()
                 .body("content", equalTo("Hello, World!"));
     }
+
+    // @BeforeEach
+    // public void setUp() {
+    //     RestAssured.port = port;
+    // }
+
+    // @Test
+    // public void shouldReturnDefaultGreeting() {
+    //     given()
+    //         .when()
+    //             .get("/api/greeting")
+    //         .then()
+    //             .statusCode(200)
+    //             .body("message", is("Hello, World!"));
+    // }
+
+    // @Test
+    // public void shouldReturnCustomGreeting() {
+    //     String name = "John";
+        
+    //     given()
+    //         .when()
+    //             .get("/api/greeting?name=" + name)
+    //         .then()
+    //             .statusCode(200)
+    //             .body("message", is("Hello, " + name + "!"));
+    // }
+
 }

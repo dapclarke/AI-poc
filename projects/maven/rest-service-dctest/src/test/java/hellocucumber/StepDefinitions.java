@@ -1,11 +1,11 @@
 package hellocucumber;
 
 import io.cucumber.java.en.*;
-import static org.assertj.core.api.Assertions.assertThat;
+//import static org.assertj.core.api.Assertions.assertThat;
 
 // Add to import REST-assured libraries
-import io.restassured.response.Response;
-import static io.restassured.RestAssured.*;
+//import io.restassured.response.Response;
+//import static io.restassured.RestAssured.*;
 //import static org.junit.Assert.*;
 
 

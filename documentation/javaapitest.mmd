@@ -1,0 +1,24 @@
+---
+query: Generate flowchart for the the file
+generationTime: 2025-11-06T11:28:24.135Z
+---
+flowchart TB
+    subgraph CI [CI/CD Pipeline]
+        direction TB
+        GH[GitHub Repository] --> Actions[GitHub Actions]
+        Actions --> Tests[Run Tests]
+        Tests --> Build[Build Java API]
+    end
+
+    subgraph Testing [Test Suite]
+        direction TB
+        JUnit[JUnit Tests] --> RestAssured[REST Assured Tests]
+    end
+
+    subgraph Infrastructure [Azure Infrastructure]
+        direction TB
+        WebApp[Azure Web Apps]
+    end
+
+    Build --> WebApp
+    Tests --> Testing

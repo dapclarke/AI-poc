@@ -1,4 +1,4 @@
-package com.example.restservice.greeting;
+package com.exampleapi.restservice.greeting;
 
 public class Greeting {
 
